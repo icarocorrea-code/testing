@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Representa CRM</title>
+    <style>
+      :root {
+        --bg: #0c0f14;
+        --panel: #141a23;
+        --panel-soft: #1c2431;
+        --primary: #53d1b6;
+        --primary-dark: #1ea98d;
+        --text: #ecf2ff;
+        --muted: #9fb1c9;
+        --danger: #ff6f70;
+        --warning: #f2c66d;
+        --ok: #74d38a;
+        --border: #2b3648;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, Segoe UI, Arial, sans-serif;
+        background: radial-gradient(circle at 15% 15%, #1e2b3f 0%, var(--bg) 30%), var(--bg);
+        color: var(--text);
+      }
+
+      .app {
+        width: min(1200px, 95vw);
+        margin: 28px auto;
+        display: grid;
+        gap: 18px;
+      }
+
+      .card {
+        background: linear-gradient(145deg, var(--panel), #0f141d);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 1.6rem;
+      }
+
+      .subtitle {
+        color: var(--muted);
+        margin-top: 6px;
+        font-size: 0.95rem;
+      }
+
+      .controls {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+
+      label {
+        display: grid;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      input,
+      select,
+      textarea,
+      button {
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: var(--panel-soft);
+        color: var(--text);
+        padding: 10px 12px;
+        font-size: 0.92rem;
+      }
+
+      textarea {
+        min-height: 42px;
+        resize: vertical;
+      }
+
+      button {
+        cursor: pointer;
+        background: linear-gradient(145deg, var(--primary), var(--primary-dark));
+        border: none;
+        font-weight: 600;
+      }
+
+      button.secondary {
+        background: var(--panel-soft);
+        border: 1px solid var(--border);
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--ok);
+      }
+
+      .dot.warn {
+        background: var(--warning);
+      }
+
+      .grid {
+        display: grid;
+        gap: 16px;
+      }
+
+      .dashboard-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+
+      .kpi {
+        background: var(--panel-soft);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px;
+      }
+
+      .kpi strong {
+        display: block;
+        font-size: 1.7rem;
+        margin-top: 6px;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .table-wrap {
+        overflow: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 980px;
+      }
+
+      th,
+      td {
+        border-bottom: 1px solid var(--border);
+        padding: 10px;
+        text-align: left;
+        vertical-align: top;
+        font-size: 0.9rem;
+      }
+
+      th {
+        color: var(--muted);
+        position: sticky;
+        top: 0;
+        background: #121a26;
+      }
+
+      .pill {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .pill.novo {
+        background: #31507e;
+      }
+
+      .pill.contato {
+        background: #6a4cae;
+      }
+
+      .pill.proposta {
+        background: #b38b3f;
+      }
+
+      .pill.fechado {
+        background: #2f9f71;
+      }
+
+      .pill.perdido {
+        background: #a74c5d;
+      }
+
+      .kanban {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(5, minmax(220px, 1fr));
+        overflow: auto;
+      }
+
+      .column {
+        background: var(--panel-soft);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px;
+        min-height: 180px;
+      }
+
+      .column h4 {
+        margin: 0 0 8px 0;
+      }
+
+      .lead-card {
+        background: #141b26;
+        border: 1px solid #2f3c52;
+        border-radius: 10px;
+        padding: 8px;
+        margin-bottom: 8px;
+        font-size: 0.86rem;
+      }
+
+      .bar {
+        margin-top: 8px;
+        height: 8px;
+        border-radius: 99px;
+        background: #293647;
+        overflow: hidden;
+      }
+
+      .bar > span {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), #89ffe6);
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .small {
+        font-size: 0.8rem;
+      }
+
+      @media (max-width: 900px) {
+        .header {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app">
+      <section class="card header">
+        <div>
+          <h1>Representa CRM · Leads de Performance</h1>
+          <p class="subtitle">
+            Sistema para operação comercial e gestão de funil, pensado para clientes da
+            Representa.
+          </p>
+        </div>
+        <div class="status">
+          <span id="syncDot" class="dot warn"></span>
+          <span id="syncText">Modo local (LocalStorage)</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="controls">
+          <label>
+            Perfil de acesso
+            <select id="perfilAtual">
+              <option value="admin">Admin (plataforma)</option>
+              <option value="gestao">Gestão (empresa)</option>
+              <option value="comercial">Comercial (empresa)</option>
+            </select>
+          </label>
+          <label>
+            Empresa vinculada
+            <input id="empresaAtual" value="Representa Cliente Demo" />
+          </label>
+          <label>
+            Usuário logado
+            <input id="usuarioAtual" value="usuario@representa.marketing" />
+          </label>
+          <label>
+            Filtro por origem
+            <select id="filtroOrigem">
+              <option value="">Todas</option>
+              <option>Meta Ads</option>
+              <option>Google Ads</option>
+              <option>TikTok Ads</option>
+              <option>Orgânico</option>
+              <option>Indicação</option>
+              <option>Outbound</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Cadastrar lead</h3>
+        <form id="leadForm" class="controls">
+          <label>
+            Nome do lead
+            <input required id="nome" placeholder="Ex.: Marina Souza" />
+          </label>
+          <label>
+            Telefone
+            <input required id="telefone" placeholder="(11) 99999-0000" />
+          </label>
+          <label>
+            Origem
+            <select id="origem" required>
+              <option>Meta Ads</option>
+              <option>Google Ads</option>
+              <option>TikTok Ads</option>
+              <option>Orgânico</option>
+              <option>Indicação</option>
+              <option>Outbound</option>
+            </select>
+          </label>
+          <label>
+            Status do funil
+            <select id="status" required>
+              <option>Novo</option>
+              <option>Contato</option>
+              <option>Proposta</option>
+              <option>Fechado</option>
+              <option>Perdido</option>
+            </select>
+          </label>
+          <label>
+            Valor estimado (R$)
+            <input id="valor" type="number" min="0" step="100" placeholder="3500" />
+          </label>
+          <label>
+            Data do próximo follow-up
+            <input id="followup" type="date" />
+          </label>
+          <label style="grid-column: 1 / -1;">
+            Devolutiva (quando perdido)
+            <select id="devolutiva">
+              <option value="">Não se aplica</option>
+              <option>Sem orçamento no momento</option>
+              <option>Decisor não aprovou</option>
+              <option>Fechou com concorrente</option>
+              <option>Sem fit com solução</option>
+              <option>Sem retorno do lead</option>
+            </select>
+          </label>
+          <label style="grid-column: 1 / -1;">
+            Observações comerciais
+            <textarea id="observacoes" placeholder="Ex.: Lead pediu proposta para plano trimestral."></textarea>
+          </label>
+          <div class="actions" style="grid-column: 1 / -1;">
+            <button type="submit">Salvar lead</button>
+            <button class="secondary" type="button" id="limpar">Limpar formulário</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="dashboardSection" class="card">
+        <h3>Dashboard gerencial</h3>
+        <div id="kpis" class="grid dashboard-grid"></div>
+        <div class="grid dashboard-grid" style="margin-top: 12px;">
+          <div class="kpi">
+            <span class="muted">Conversão do funil</span>
+            <strong id="convRate">0%</strong>
+            <div class="bar"><span id="convBar" style="width: 0%;"></span></div>
+          </div>
+          <div class="kpi">
+            <span class="muted">Origem com maior volume</span>
+            <strong id="bestOrigem">-</strong>
+            <p id="bestOrigemInfo" class="small muted">Sem dados ainda.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Visualização Kanban</h3>
+        <div id="kanban" class="kanban"></div>
+      </section>
+
+      <section class="card">
+        <h3>Cadastro e acompanhamento em lista</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Lead</th>
+                <th>Contato</th>
+                <th>Origem</th>
+                <th>Status</th>
+                <th>Valor</th>
+                <th>Follow-up</th>
+                <th>Devolutiva</th>
+                <th>Empresa</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="leadRows"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script type="module">
+      // Para ativar Firebase em produção: substitua com seu config real e troque useFirebase para true.
+      const firebaseConfig = {
+        apiKey: "",
+        authDomain: "",
+        projectId: "",
+        storageBucket: "",
+        messagingSenderId: "",
+        appId: ""
+      };
+      const useFirebase = false;
+
+      const statusFlow = ["Novo", "Contato", "Proposta", "Fechado", "Perdido"];
+      const storeKey = "representa.crm.leads.v1";
+
+      const els = {
+        perfil: document.getElementById("perfilAtual"),
+        empresa: document.getElementById("empresaAtual"),
+        usuario: document.getElementById("usuarioAtual"),
+        filtroOrigem: document.getElementById("filtroOrigem"),
+        form: document.getElementById("leadForm"),
+        limpar: document.getElementById("limpar"),
+        rows: document.getElementById("leadRows"),
+        kanban: document.getElementById("kanban"),
+        kpis: document.getElementById("kpis"),
+        convRate: document.getElementById("convRate"),
+        convBar: document.getElementById("convBar"),
+        bestOrigem: document.getElementById("bestOrigem"),
+        bestOrigemInfo: document.getElementById("bestOrigemInfo"),
+        dashboard: document.getElementById("dashboardSection"),
+        syncDot: document.getElementById("syncDot"),
+        syncText: document.getElementById("syncText")
+      };
+
+      let leads = loadLocal();
+
+      function uid() {
+        return `${Date.now()}-${Math.random().toString(16).slice(2, 8)}`;
+      }
+
+      function loadLocal() {
+        try {
+          return JSON.parse(localStorage.getItem(storeKey) || "[]");
+        } catch {
+          return [];
+        }
+      }
+
+      function saveLocal() {
+        localStorage.setItem(storeKey, JSON.stringify(leads));
+      }
+
+      function perfilAtual() {
+        return els.perfil.value;
+      }
+
+      function leadsFiltrados() {
+        const perfil = perfilAtual();
+        const empresa = els.empresa.value.trim();
+        const origem = els.filtroOrigem.value;
+
+        return leads.filter((lead) => {
+          const scopeOk = perfil === "admin" ? true : lead.empresa === empresa;
+          const origemOk = origem ? lead.origem === origem : true;
+          return scopeOk && origemOk;
+        });
+      }
+
+      function classeStatus(status) {
+        return status.toLowerCase();
+      }
+
+      function setDashboardVisibility() {
+        const hide = perfilAtual() === "comercial";
+        els.dashboard.classList.toggle("hidden", hide);
+      }
+
+      function renderTable() {
+        const perfil = perfilAtual();
+        const canDelete = perfil !== "comercial";
+        const list = leadsFiltrados();
+
+        els.rows.innerHTML = list
+          .map(
+            (lead) => `
+            <tr>
+              <td>
+                <strong>${lead.nome}</strong><br />
+                <span class="small muted">Criado por: ${lead.criadoPor}</span>
+              </td>
+              <td>${lead.telefone}</td>
+              <td>${lead.origem}</td>
+              <td>
+                <span class="pill ${classeStatus(lead.status)}">${lead.status}</span>
+                <div class="small muted">Atualizado em ${new Date(lead.atualizadoEm).toLocaleDateString("pt-BR")}</div>
+              </td>
+              <td>${lead.valor ? Number(lead.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "-"}</td>
+              <td>${lead.followup || "-"}</td>
+              <td>${lead.devolutiva || "-"}</td>
+              <td>${lead.empresa}</td>
+              <td class="actions">
+                <button class="secondary" data-act="advance" data-id="${lead.id}">Avançar</button>
+                ${canDelete ? `<button class="secondary" data-act="delete" data-id="${lead.id}">Excluir</button>` : ""}
+              </td>
+            </tr>
+          `
+          )
+          .join("");
+      }
+
+      function renderKanban() {
+        const list = leadsFiltrados();
+        els.kanban.innerHTML = statusFlow
+          .map((status) => {
+            const itens = list.filter((lead) => lead.status === status);
+            return `
+              <div class="column">
+                <h4>${status} (${itens.length})</h4>
+                ${itens
+                  .map(
+                    (lead) => `
+                    <article class="lead-card">
+                      <strong>${lead.nome}</strong>
+                      <div>${lead.origem} · ${lead.telefone}</div>
+                      <div class="small muted">Follow-up: ${lead.followup || "não definido"}</div>
+                    </article>
+                  `
+                  )
+                  .join("") || "<p class='small muted'>Sem leads nesta etapa.</p>"}
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      function renderDashboard() {
+        const list = leadsFiltrados();
+        const total = list.length;
+        const fechados = list.filter((l) => l.status === "Fechado").length;
+        const perdidos = list.filter((l) => l.status === "Perdido").length;
+        const emAndamento = total - fechados - perdidos;
+        const valorPrevisto = list.reduce((acc, l) => acc + Number(l.valor || 0), 0);
+
+        const byOrigem = list.reduce((acc, lead) => {
+          acc[lead.origem] = (acc[lead.origem] || 0) + 1;
+          return acc;
+        }, {});
+
+        const bestOrigem = Object.entries(byOrigem).sort((a, b) => b[1] - a[1])[0];
+        const conv = total ? Math.round((fechados / total) * 100) : 0;
+
+        els.kpis.innerHTML = `
+          <div class="kpi"><span class="muted">Leads totais</span><strong>${total}</strong></div>
+          <div class="kpi"><span class="muted">Em andamento</span><strong>${emAndamento}</strong></div>
+          <div class="kpi"><span class="muted">Fechados</span><strong>${fechados}</strong></div>
+          <div class="kpi"><span class="muted">Perdidos</span><strong>${perdidos}</strong></div>
+          <div class="kpi"><span class="muted">Valor potencial</span><strong>${valorPrevisto.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+          })}</strong></div>
+        `;
+
+        els.convRate.textContent = `${conv}%`;
+        els.convBar.style.width = `${conv}%`;
+
+        if (bestOrigem) {
+          els.bestOrigem.textContent = bestOrigem[0];
+          els.bestOrigemInfo.textContent = `${bestOrigem[1]} lead(s) vindos desta origem.`;
+        } else {
+          els.bestOrigem.textContent = "-";
+          els.bestOrigemInfo.textContent = "Sem dados ainda.";
+        }
+      }
+
+      function renderAll() {
+        setDashboardVisibility();
+        renderTable();
+        renderKanban();
+        renderDashboard();
+      }
+
+      els.form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const novo = {
+          id: uid(),
+          nome: document.getElementById("nome").value.trim(),
+          telefone: document.getElementById("telefone").value.trim(),
+          origem: document.getElementById("origem").value,
+          status: document.getElementById("status").value,
+          devolutiva: document.getElementById("devolutiva").value,
+          observacoes: document.getElementById("observacoes").value.trim(),
+          valor: document.getElementById("valor").value,
+          followup: document.getElementById("followup").value,
+          empresa: els.empresa.value.trim(),
+          criadoPor: els.usuario.value.trim(),
+          criadoEm: new Date().toISOString(),
+          atualizadoEm: new Date().toISOString()
+        };
+
+        leads.unshift(novo);
+        saveLocal();
+        els.form.reset();
+        renderAll();
+      });
+
+      els.rows.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-id]");
+        if (!btn) return;
+
+        const id = btn.dataset.id;
+        const action = btn.dataset.act;
+        const idx = leads.findIndex((lead) => lead.id === id);
+        if (idx === -1) return;
+
+        if (action === "delete") {
+          leads.splice(idx, 1);
+        }
+
+        if (action === "advance") {
+          const pos = statusFlow.indexOf(leads[idx].status);
+          leads[idx].status = statusFlow[(pos + 1) % statusFlow.length];
+          leads[idx].atualizadoEm = new Date().toISOString();
+        }
+
+        saveLocal();
+        renderAll();
+      });
+
+      [els.perfil, els.empresa, els.filtroOrigem].forEach((el) => el.addEventListener("change", renderAll));
+
+      els.limpar.addEventListener("click", () => els.form.reset());
+
+      if (useFirebase && firebaseConfig.apiKey) {
+        els.syncDot.classList.remove("warn");
+        els.syncText.textContent = "Firebase habilitado";
+      }
+
+      if (!leads.length) {
+        leads = [
+          {
+            id: uid(),
+            nome: "João Silva",
+            telefone: "(11) 98888-1111",
+            origem: "Meta Ads",
+            status: "Contato",
+            devolutiva: "",
+            observacoes: "Interesse em geração de leads para imobiliária.",
+            valor: 4500,
+            followup: new Date(Date.now() + 3 * 86400000).toISOString().slice(0, 10),
+            empresa: "Representa Cliente Demo",
+            criadoPor: "vendas@cliente.com",
+            criadoEm: new Date().toISOString(),
+            atualizadoEm: new Date().toISOString()
+          },
+          {
+            id: uid(),
+            nome: "Camila Costa",
+            telefone: "(21) 97777-2222",
+            origem: "Google Ads",
+            status: "Proposta",
+            devolutiva: "",
+            observacoes: "Quer migrar de agência no próximo mês.",
+            valor: 6000,
+            followup: new Date(Date.now() + 5 * 86400000).toISOString().slice(0, 10),
+            empresa: "Representa Cliente Demo",
+            criadoPor: "gestor@cliente.com",
+            criadoEm: new Date().toISOString(),
+            atualizadoEm: new Date().toISOString()
+          }
+        ];
+        saveLocal();
+      }
+
+      renderAll();
+    </script>
+  </body>
+</html>
