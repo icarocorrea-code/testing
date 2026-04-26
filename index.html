@@ -3,20 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Representa CRM</title>
+    <title>CRM Contábil • Leads, Clientes e Entregas</title>
     <style>
       :root {
-        --bg: #0c0f14;
-        --panel: #141a23;
-        --panel-soft: #1c2431;
-        --primary: #53d1b6;
-        --primary-dark: #1ea98d;
-        --text: #ecf2ff;
-        --muted: #9fb1c9;
-        --danger: #ff6f70;
-        --warning: #f2c66d;
-        --ok: #74d38a;
-        --border: #2b3648;
+        --bg: #f3f6fb;
+        --card: #ffffff;
+        --line: #dce4f1;
+        --primary: #2d63ff;
+        --primary-soft: #dfe8ff;
+        --text: #1f2a44;
+        --muted: #6b7691;
+        --success: #1ca56a;
+        --warning: #f5a623;
+        --danger: #e34d65;
+        --radius: 14px;
       }
 
       * {
@@ -25,135 +25,185 @@
 
       body {
         margin: 0;
-        font-family: Inter, Segoe UI, Arial, sans-serif;
-        background: radial-gradient(circle at 15% 15%, #1e2b3f 0%, var(--bg) 30%), var(--bg);
+        font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
         color: var(--text);
+        background: var(--bg);
       }
 
       .app {
-        width: min(1200px, 95vw);
-        margin: 28px auto;
+        width: min(1300px, 96vw);
+        margin: 24px auto;
         display: grid;
-        gap: 18px;
+        gap: 16px;
       }
 
       .card {
-        background: linear-gradient(145deg, var(--panel), #0f141d);
-        border: 1px solid var(--border);
-        border-radius: 16px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
         padding: 16px;
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 8px 24px rgba(31, 42, 68, 0.06);
       }
 
       .header {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
-        gap: 16px;
-      }
-
-      h1 {
-        margin: 0;
-        font-size: 1.6rem;
-      }
-
-      .subtitle {
-        color: var(--muted);
-        margin-top: 6px;
-        font-size: 0.95rem;
-      }
-
-      .controls {
-        display: grid;
+        align-items: center;
         gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        margin: 0;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .tabs button {
+        border: 1px solid var(--line);
+        background: white;
+        border-radius: 999px;
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+
+      .tabs button.active {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: white;
+      }
+
+      .panel {
+        display: none;
+      }
+
+      .panel.active {
+        display: block;
+      }
+
+      .form-grid {
+        display: grid;
+        gap: 10px;
         grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       }
 
       label {
         display: grid;
         gap: 6px;
+        font-size: 0.86rem;
         color: var(--muted);
-        font-size: 0.85rem;
       }
 
       input,
       select,
       textarea,
       button {
+        border: 1px solid var(--line);
         border-radius: 10px;
-        border: 1px solid var(--border);
-        background: var(--panel-soft);
-        color: var(--text);
-        padding: 10px 12px;
-        font-size: 0.92rem;
-      }
-
-      textarea {
-        min-height: 42px;
-        resize: vertical;
+        padding: 10px;
+        font: inherit;
       }
 
       button {
         cursor: pointer;
-        background: linear-gradient(145deg, var(--primary), var(--primary-dark));
-        border: none;
-        font-weight: 600;
       }
 
-      button.secondary {
-        background: var(--panel-soft);
-        border: 1px solid var(--border);
+      .primary {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: white;
       }
 
-      .actions {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
+      .secondary {
+        background: white;
       }
 
-      .status {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 0.9rem;
-        color: var(--muted);
-      }
-
-      .dot {
-        width: 9px;
-        height: 9px;
-        border-radius: 50%;
-        background: var(--ok);
-      }
-
-      .dot.warn {
-        background: var(--warning);
-      }
-
-      .grid {
+      .kpi-grid {
         display: grid;
-        gap: 16px;
-      }
-
-      .dashboard-grid {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 10px;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       }
 
       .kpi {
-        background: var(--panel-soft);
-        border: 1px solid var(--border);
+        border: 1px solid var(--line);
         border-radius: 12px;
         padding: 12px;
+        background: #fbfcff;
       }
 
       .kpi strong {
         display: block;
-        font-size: 1.7rem;
         margin-top: 6px;
+        font-size: 1.5rem;
       }
 
-      .muted {
-        color: var(--muted);
+      .bar {
+        height: 10px;
+        border-radius: 999px;
+        background: #eef2fa;
+        overflow: hidden;
+      }
+
+      .bar > span {
+        height: 100%;
+        display: block;
+        background: linear-gradient(90deg, var(--primary), #4ea2ff);
+      }
+
+      .kanban {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(5, minmax(220px, 1fr));
+        overflow-x: auto;
+      }
+
+      .column {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fcfdff;
+        padding: 10px;
+        min-height: 170px;
+      }
+
+      .lead-card {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: white;
+        padding: 8px;
+        margin-bottom: 8px;
+        font-size: 0.86rem;
+      }
+
+      .lead-card .actions {
+        margin-top: 8px;
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .pill {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .whatsapp,
+      .instagram,
+      .messenger {
+        background: var(--primary-soft);
       }
 
       .table-wrap {
@@ -163,106 +213,39 @@
       table {
         width: 100%;
         border-collapse: collapse;
-        min-width: 980px;
+        min-width: 850px;
       }
 
       th,
       td {
-        border-bottom: 1px solid var(--border);
-        padding: 10px;
+        border-bottom: 1px solid var(--line);
+        padding: 8px;
         text-align: left;
         vertical-align: top;
-        font-size: 0.9rem;
+        font-size: 0.88rem;
       }
 
-      th {
-        color: var(--muted);
-        position: sticky;
-        top: 0;
-        background: #121a26;
+      .status-ok {
+        color: var(--success);
       }
 
-      .pill {
-        display: inline-block;
-        padding: 4px 8px;
-        border-radius: 999px;
-        font-size: 0.75rem;
-        font-weight: 600;
+      .status-warn {
+        color: var(--warning);
       }
 
-      .pill.novo {
-        background: #31507e;
+      .status-overdue {
+        color: var(--danger);
       }
 
-      .pill.contato {
-        background: #6a4cae;
-      }
-
-      .pill.proposta {
-        background: #b38b3f;
-      }
-
-      .pill.fechado {
-        background: #2f9f71;
-      }
-
-      .pill.perdido {
-        background: #a74c5d;
-      }
-
-      .kanban {
+      .split {
         display: grid;
         gap: 10px;
-        grid-template-columns: repeat(5, minmax(220px, 1fr));
-        overflow: auto;
+        grid-template-columns: 1.2fr 1fr;
       }
 
-      .column {
-        background: var(--panel-soft);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 10px;
-        min-height: 180px;
-      }
-
-      .column h4 {
-        margin: 0 0 8px 0;
-      }
-
-      .lead-card {
-        background: #141b26;
-        border: 1px solid #2f3c52;
-        border-radius: 10px;
-        padding: 8px;
-        margin-bottom: 8px;
-        font-size: 0.86rem;
-      }
-
-      .bar {
-        margin-top: 8px;
-        height: 8px;
-        border-radius: 99px;
-        background: #293647;
-        overflow: hidden;
-      }
-
-      .bar > span {
-        display: block;
-        height: 100%;
-        background: linear-gradient(90deg, var(--primary), #89ffe6);
-      }
-
-      .hidden {
-        display: none !important;
-      }
-
-      .small {
-        font-size: 0.8rem;
-      }
-
-      @media (max-width: 900px) {
-        .header {
-          flex-direction: column;
+      @media (max-width: 960px) {
+        .split {
+          grid-template-columns: 1fr;
         }
       }
     </style>
@@ -271,261 +254,355 @@
     <main class="app">
       <section class="card header">
         <div>
-          <h1>Representa CRM · Leads de Performance</h1>
-          <p class="subtitle">
-            Sistema para operação comercial e gestão de funil, pensado para clientes da
-            Representa.
-          </p>
+          <h1>CRM Contábil 360</h1>
+          <p class="muted">Leads em kanban, atendimento omnichannel e pós-venda com contratos + SLAs.</p>
         </div>
-        <div class="status">
-          <span id="syncDot" class="dot warn"></span>
-          <span id="syncText">Modo local (LocalStorage)</span>
+        <div>
+          <button id="btnNotifications" class="secondary">Ativar notificação no celular</button>
+          <p id="notificationState" class="muted">Notificações: não configuradas.</p>
         </div>
       </section>
 
       <section class="card">
-        <div class="controls">
-          <label>
-            Perfil de acesso
-            <select id="perfilAtual">
-              <option value="admin">Admin (plataforma)</option>
-              <option value="gestao">Gestão (empresa)</option>
-              <option value="comercial">Comercial (empresa)</option>
-            </select>
-          </label>
-          <label>
-            Empresa vinculada
-            <input id="empresaAtual" value="Representa Cliente Demo" />
-          </label>
-          <label>
-            Usuário logado
-            <input id="usuarioAtual" value="usuario@representa.marketing" />
-          </label>
-          <label>
-            Filtro por origem
-            <select id="filtroOrigem">
-              <option value="">Todas</option>
-              <option>Meta Ads</option>
-              <option>Google Ads</option>
-              <option>TikTok Ads</option>
-              <option>Orgânico</option>
-              <option>Indicação</option>
-              <option>Outbound</option>
-            </select>
-          </label>
+        <div class="tabs">
+          <button class="tab active" data-tab="crm">Funil e Atendimento</button>
+          <button class="tab" data-tab="clientes">Clientes e Contratos</button>
+          <button class="tab" data-tab="entregas">Entregas e SLAs</button>
+          <button class="tab" data-tab="dashboard">Dashboards</button>
         </div>
       </section>
 
-      <section class="card">
-        <h3>Cadastrar lead</h3>
-        <form id="leadForm" class="controls">
-          <label>
-            Nome do lead
-            <input required id="nome" placeholder="Ex.: Marina Souza" />
+      <section id="crm" class="panel active card">
+        <h3>Novo lead</h3>
+        <form id="leadForm" class="form-grid" style="margin-top: 10px;">
+          <label>Nome
+            <input id="leadName" required placeholder="Ex.: Camila Rocha" />
           </label>
-          <label>
-            Telefone
-            <input required id="telefone" placeholder="(11) 99999-0000" />
+          <label>WhatsApp
+            <input id="leadPhone" required placeholder="(11) 90000-0000" />
           </label>
-          <label>
-            Origem
-            <select id="origem" required>
-              <option>Meta Ads</option>
-              <option>Google Ads</option>
-              <option>TikTok Ads</option>
-              <option>Orgânico</option>
-              <option>Indicação</option>
-              <option>Outbound</option>
+          <label>Canal de entrada
+            <select id="leadChannel" required>
+              <option>WhatsApp</option>
+              <option>Instagram</option>
+              <option>Messenger</option>
             </select>
           </label>
-          <label>
-            Status do funil
-            <select id="status" required>
+          <label>Status
+            <select id="leadStage" required>
               <option>Novo</option>
-              <option>Contato</option>
+              <option>Qualificação</option>
               <option>Proposta</option>
               <option>Fechado</option>
               <option>Perdido</option>
             </select>
           </label>
-          <label>
-            Valor estimado (R$)
-            <input id="valor" type="number" min="0" step="100" placeholder="3500" />
+          <label>Serviço desejado
+            <input id="leadService" placeholder="Ex.: BPO financeiro" />
           </label>
-          <label>
-            Data do próximo follow-up
-            <input id="followup" type="date" />
+          <label>Valor estimado (R$)
+            <input id="leadValue" type="number" min="0" step="100" />
           </label>
-          <label style="grid-column: 1 / -1;">
-            Devolutiva (quando perdido)
-            <select id="devolutiva">
-              <option value="">Não se aplica</option>
-              <option>Sem orçamento no momento</option>
-              <option>Decisor não aprovou</option>
-              <option>Fechou com concorrente</option>
-              <option>Sem fit com solução</option>
-              <option>Sem retorno do lead</option>
-            </select>
+          <label style="grid-column: 1 / -1;">Resumo do atendimento
+            <textarea id="leadNotes" rows="2" placeholder="Briefing inicial do lead."></textarea>
           </label>
-          <label style="grid-column: 1 / -1;">
-            Observações comerciais
-            <textarea id="observacoes" placeholder="Ex.: Lead pediu proposta para plano trimestral."></textarea>
-          </label>
-          <div class="actions" style="grid-column: 1 / -1;">
-            <button type="submit">Salvar lead</button>
-            <button class="secondary" type="button" id="limpar">Limpar formulário</button>
+          <div>
+            <button type="submit" class="primary">Salvar lead</button>
           </div>
         </form>
-      </section>
 
-      <section id="dashboardSection" class="card">
-        <h3>Dashboard gerencial</h3>
-        <div id="kpis" class="grid dashboard-grid"></div>
-        <div class="grid dashboard-grid" style="margin-top: 12px;">
-          <div class="kpi">
-            <span class="muted">Conversão do funil</span>
-            <strong id="convRate">0%</strong>
-            <div class="bar"><span id="convBar" style="width: 0%;"></span></div>
+        <div class="split" style="margin-top: 16px;">
+          <div>
+            <h3>Kanban de leads</h3>
+            <div id="kanban" class="kanban" style="margin-top: 8px;"></div>
           </div>
-          <div class="kpi">
-            <span class="muted">Origem com maior volume</span>
-            <strong id="bestOrigem">-</strong>
-            <p id="bestOrigemInfo" class="small muted">Sem dados ainda.</p>
+          <div>
+            <h3>Caixa unificada (WhatsApp, Instagram e Messenger)</h3>
+            <div id="inboxList" style="display: grid; gap: 8px; margin-top: 8px;"></div>
+            <button id="simulateMessage" class="secondary" style="margin-top: 8px;">Simular nova mensagem</button>
           </div>
         </div>
       </section>
 
-      <section class="card">
-        <h3>Visualização Kanban</h3>
-        <div id="kanban" class="kanban"></div>
-      </section>
+      <section id="clientes" class="panel card">
+        <h3>Clientes cadastrados (fechamentos automáticos)</h3>
+        <p class="muted">Quando o lead entra em <strong>Fechado</strong>, vira cliente automaticamente com cadastro básico. O detalhamento pode ser feito depois.</p>
 
-      <section class="card">
-        <h3>Cadastro e acompanhamento em lista</h3>
-        <div class="table-wrap">
+        <div class="table-wrap" style="margin-top: 8px;">
           <table>
             <thead>
               <tr>
-                <th>Lead</th>
-                <th>Contato</th>
+                <th>Cliente</th>
                 <th>Origem</th>
-                <th>Status</th>
-                <th>Valor</th>
-                <th>Follow-up</th>
-                <th>Devolutiva</th>
-                <th>Empresa</th>
-                <th>Ações</th>
+                <th>Serviço principal</th>
+                <th>Dados complementares</th>
+                <th>Contrato</th>
               </tr>
             </thead>
-            <tbody id="leadRows"></tbody>
+            <tbody id="clientRows"></tbody>
           </table>
+        </div>
+      </section>
+
+      <section id="entregas" class="panel card">
+        <h3>Entregas com SLA</h3>
+        <form id="deliveryForm" class="form-grid" style="margin-top: 10px;">
+          <label>Cliente
+            <select id="deliveryClient" required></select>
+          </label>
+          <label>Entrega
+            <input id="deliveryName" required placeholder="Ex.: Fechamento contábil mensal" />
+          </label>
+          <label>SLA (dias)
+            <input id="deliverySla" required type="number" min="1" value="5" />
+          </label>
+          <label>Data de início
+            <input id="deliveryStart" required type="date" />
+          </label>
+          <div>
+            <button class="primary" type="submit">Adicionar entrega</button>
+          </div>
+        </form>
+
+        <div class="table-wrap" style="margin-top: 10px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Entrega</th>
+                <th>Início</th>
+                <th>Prazo final</th>
+                <th>Status SLA</th>
+              </tr>
+            </thead>
+            <tbody id="deliveryRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="dashboard" class="panel card">
+        <h3>Dashboards interativos</h3>
+        <div class="kpi-grid" style="margin-top: 8px;">
+          <div class="kpi"><span class="muted">Leads totais</span><strong id="kpiLeads">0</strong></div>
+          <div class="kpi"><span class="muted">Taxa de fechamento</span><strong id="kpiCloseRate">0%</strong></div>
+          <div class="kpi"><span class="muted">Clientes ativos</span><strong id="kpiClients">0</strong></div>
+          <div class="kpi"><span class="muted">SLAs no prazo</span><strong id="kpiSla">0%</strong></div>
+        </div>
+        <div class="kpi" style="margin-top: 10px;">
+          <span class="muted">Distribuição por canal (atendimentos)</span>
+          <p id="channelText" style="margin: 6px 0;">Sem dados.</p>
+          <div class="bar"><span id="channelBar" style="width: 0%;"></span></div>
         </div>
       </section>
     </main>
 
-    <script type="module">
-      // Para ativar Firebase em produção: substitua com seu config real e troque useFirebase para true.
-      const firebaseConfig = {
-        apiKey: "",
-        authDomain: "",
-        projectId: "",
-        storageBucket: "",
-        messagingSenderId: "",
-        appId: ""
-      };
-      const useFirebase = false;
+    <script>
+      const KEY = "crm-contabil-360-v1";
+      const STAGES = ["Novo", "Qualificação", "Proposta", "Fechado", "Perdido"];
 
-      const statusFlow = ["Novo", "Contato", "Proposta", "Fechado", "Perdido"];
-      const storeKey = "representa.crm.leads.v1";
+      const state = load();
 
-      const els = {
-        perfil: document.getElementById("perfilAtual"),
-        empresa: document.getElementById("empresaAtual"),
-        usuario: document.getElementById("usuarioAtual"),
-        filtroOrigem: document.getElementById("filtroOrigem"),
-        form: document.getElementById("leadForm"),
-        limpar: document.getElementById("limpar"),
-        rows: document.getElementById("leadRows"),
-        kanban: document.getElementById("kanban"),
-        kpis: document.getElementById("kpis"),
-        convRate: document.getElementById("convRate"),
-        convBar: document.getElementById("convBar"),
-        bestOrigem: document.getElementById("bestOrigem"),
-        bestOrigemInfo: document.getElementById("bestOrigemInfo"),
-        dashboard: document.getElementById("dashboardSection"),
-        syncDot: document.getElementById("syncDot"),
-        syncText: document.getElementById("syncText")
-      };
+      const tabs = document.querySelectorAll(".tab");
+      const panels = document.querySelectorAll(".panel");
+      const leadForm = document.getElementById("leadForm");
+      const deliveryForm = document.getElementById("deliveryForm");
 
-      let leads = loadLocal();
+      const kanban = document.getElementById("kanban");
+      const inboxList = document.getElementById("inboxList");
+      const clientRows = document.getElementById("clientRows");
+      const deliveryRows = document.getElementById("deliveryRows");
+      const deliveryClient = document.getElementById("deliveryClient");
 
-      function uid() {
-        return `${Date.now()}-${Math.random().toString(16).slice(2, 8)}`;
-      }
+      const kpiLeads = document.getElementById("kpiLeads");
+      const kpiCloseRate = document.getElementById("kpiCloseRate");
+      const kpiClients = document.getElementById("kpiClients");
+      const kpiSla = document.getElementById("kpiSla");
+      const channelText = document.getElementById("channelText");
+      const channelBar = document.getElementById("channelBar");
 
-      function loadLocal() {
-        try {
-          return JSON.parse(localStorage.getItem(storeKey) || "[]");
-        } catch {
-          return [];
+      const notificationState = document.getElementById("notificationState");
+      const btnNotifications = document.getElementById("btnNotifications");
+      const simulateMessage = document.getElementById("simulateMessage");
+
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          tabs.forEach((btn) => btn.classList.remove("active"));
+          panels.forEach((panel) => panel.classList.remove("active"));
+          tab.classList.add("active");
+          document.getElementById(tab.dataset.tab).classList.add("active");
+        });
+      });
+
+      leadForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const lead = {
+          id: crypto.randomUUID(),
+          name: document.getElementById("leadName").value.trim(),
+          phone: document.getElementById("leadPhone").value.trim(),
+          channel: document.getElementById("leadChannel").value,
+          stage: document.getElementById("leadStage").value,
+          service: document.getElementById("leadService").value.trim() || "Não informado",
+          value: Number(document.getElementById("leadValue").value || 0),
+          notes: document.getElementById("leadNotes").value.trim(),
+          createdAt: new Date().toISOString()
+        };
+
+        state.leads.unshift(lead);
+        state.inbox.unshift({
+          id: crypto.randomUUID(),
+          from: lead.name,
+          channel: lead.channel,
+          text: lead.notes || "Novo contato recebido.",
+          createdAt: new Date().toISOString()
+        });
+
+        if (lead.stage === "Fechado") {
+          convertLeadToClient(lead);
         }
-      }
 
-      function saveLocal() {
-        localStorage.setItem(storeKey, JSON.stringify(leads));
-      }
+        persist();
+        leadForm.reset();
+        renderAll();
+      });
 
-      function perfilAtual() {
-        return els.perfil.value;
-      }
+      deliveryForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const clientId = deliveryClient.value;
+        const client = state.clients.find((item) => item.id === clientId);
+        if (!client) {
+          return;
+        }
 
-      function leadsFiltrados() {
-        const perfil = perfilAtual();
-        const empresa = els.empresa.value.trim();
-        const origem = els.filtroOrigem.value;
+        const start = document.getElementById("deliveryStart").value;
+        const sla = Number(document.getElementById("deliverySla").value);
+        const endDate = addDays(start, sla);
 
-        return leads.filter((lead) => {
-          const scopeOk = perfil === "admin" ? true : lead.empresa === empresa;
-          const origemOk = origem ? lead.origem === origem : true;
-          return scopeOk && origemOk;
+        state.deliveries.unshift({
+          id: crypto.randomUUID(),
+          clientId,
+          clientName: client.name,
+          name: document.getElementById("deliveryName").value.trim(),
+          start,
+          endDate
+        });
+
+        persist();
+        deliveryForm.reset();
+        renderAll();
+      });
+
+      btnNotifications.addEventListener("click", async () => {
+        if (!("Notification" in window)) {
+          notificationState.textContent = "Notificações não suportadas neste navegador.";
+          return;
+        }
+
+        const permission = await Notification.requestPermission();
+        notificationState.textContent = `Notificações: ${permission}.`;
+      });
+
+      simulateMessage.addEventListener("click", () => {
+        const channels = ["WhatsApp", "Instagram", "Messenger"];
+        const names = ["João", "Mariana", "Ricardo", "Fernanda"];
+        const inboxItem = {
+          id: crypto.randomUUID(),
+          from: `${names[Math.floor(Math.random() * names.length)]} (Lead)`,
+          channel: channels[Math.floor(Math.random() * channels.length)],
+          text: "Olá! Quero saber mais sobre abertura de empresa.",
+          createdAt: new Date().toISOString()
+        };
+
+        state.inbox.unshift(inboxItem);
+        persist();
+        renderAll();
+        triggerMobileAlert(inboxItem);
+      });
+
+      function convertLeadToClient(lead) {
+        const alreadyClient = state.clients.some((client) => client.leadId === lead.id);
+        if (alreadyClient) {
+          return;
+        }
+
+        state.clients.unshift({
+          id: crypto.randomUUID(),
+          leadId: lead.id,
+          name: lead.name,
+          channel: lead.channel,
+          service: lead.service,
+          taxId: "Pendente",
+          email: "Pendente",
+          contract: {
+            title: `Contrato de ${lead.service}`,
+            services: lead.service,
+            deliverables: "Obrigações fiscais, contábeis e acessórias",
+            billing: lead.value > 0 ? `R$ ${lead.value.toLocaleString("pt-BR")}` : "A definir"
+          }
         });
       }
 
-      function classeStatus(status) {
-        return status.toLowerCase();
+      function renderKanban() {
+        kanban.innerHTML = STAGES.map((stage) => {
+          const leads = state.leads.filter((lead) => lead.stage === stage);
+          const cards = leads
+            .map(
+              (lead) => `
+              <article class="lead-card">
+                <strong>${lead.name}</strong>
+                <div>${lead.service}</div>
+                <span class="pill ${lead.channel.toLowerCase()}">${lead.channel}</span>
+                <div class="muted">Valor estimado: R$ ${lead.value.toLocaleString("pt-BR")}</div>
+                <div class="actions">
+                  <button onclick="advanceLead('${lead.id}')">Avançar</button>
+                </div>
+              </article>`
+            )
+            .join("");
+
+          return `<div class="column"><h4>${stage}</h4>${cards || '<p class="muted">Sem leads</p>'}</div>`;
+        }).join("");
       }
 
-      function setDashboardVisibility() {
-        const hide = perfilAtual() === "comercial";
-        els.dashboard.classList.toggle("hidden", hide);
-      }
+      function renderInbox() {
+        if (!state.inbox.length) {
+          inboxList.innerHTML = '<p class="muted">Sem conversas no momento.</p>';
+          return;
+        }
 
-      function renderTable() {
-        const perfil = perfilAtual();
-        const canDelete = perfil !== "comercial";
-        const list = leadsFiltrados();
-
-        els.rows.innerHTML = list
+        inboxList.innerHTML = state.inbox
+          .slice(0, 8)
           .map(
-            (lead) => `
+            (item) => `
+            <article class="lead-card">
+              <strong>${item.from}</strong>
+              <span class="pill ${item.channel.toLowerCase()}">${item.channel}</span>
+              <div>${item.text}</div>
+              <div class="muted">${new Date(item.createdAt).toLocaleString("pt-BR")}</div>
+            </article>`
+          )
+          .join("");
+      }
+
+      function renderClients() {
+        if (!state.clients.length) {
+          clientRows.innerHTML = '<tr><td colspan="5" class="muted">Nenhum cliente ainda.</td></tr>';
+          return;
+        }
+
+        clientRows.innerHTML = state.clients
+          .map(
+            (client) => `
             <tr>
+              <td><strong>${client.name}</strong></td>
+              <td>${client.channel}</td>
+              <td>${client.service}</td>
+              <td>CNPJ: ${client.taxId}<br />E-mail: ${client.email}</td>
               <td>
-                <strong>${lead.nome}</strong><br />
-                <span class="small muted">Criado por: ${lead.criadoPor}</span>
-              </td>
-              <td>${lead.telefone}</td>
-              <td>${lead.origem}</td>
-              <td>
-                <span class="pill ${classeStatus(lead.status)}">${lead.status}</span>
-                <div class="small muted">Atualizado em ${new Date(lead.atualizadoEm).toLocaleDateString("pt-BR")}</div>
-              </td>
-              <td>${lead.valor ? Number(lead.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "-"}</td>
-              <td>${lead.followup || "-"}</td>
-              <td>${lead.devolutiva || "-"}</td>
-              <td>${lead.empresa}</td>
-              <td class="actions">
-                <button class="secondary" data-act="advance" data-id="${lead.id}">Avançar</button>
-                ${canDelete ? `<button class="secondary" data-act="delete" data-id="${lead.id}">Excluir</button>` : ""}
+                <strong>${client.contract.title}</strong><br />
+                Serviços: ${client.contract.services}<br />
+                Entregas: ${client.contract.deliverables}<br />
+                Faturamento: ${client.contract.billing}
               </td>
             </tr>
           `
@@ -533,170 +610,133 @@
           .join("");
       }
 
-      function renderKanban() {
-        const list = leadsFiltrados();
-        els.kanban.innerHTML = statusFlow
-          .map((status) => {
-            const itens = list.filter((lead) => lead.status === status);
+      function renderDeliveryClientOptions() {
+        deliveryClient.innerHTML = state.clients.length
+          ? state.clients.map((client) => `<option value="${client.id}">${client.name}</option>`).join("")
+          : '<option value="">Sem clientes fechados</option>';
+      }
+
+      function renderDeliveries() {
+        if (!state.deliveries.length) {
+          deliveryRows.innerHTML = '<tr><td colspan="5" class="muted">Nenhuma entrega cadastrada.</td></tr>';
+          return;
+        }
+
+        const today = new Date();
+        deliveryRows.innerHTML = state.deliveries
+          .map((delivery) => {
+            const end = new Date(delivery.endDate);
+            const diff = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
+            const status = diff < 0 ? "Atrasado" : diff <= 2 ? "Próximo do vencimento" : "No prazo";
+            const className = diff < 0 ? "status-overdue" : diff <= 2 ? "status-warn" : "status-ok";
+
             return `
-              <div class="column">
-                <h4>${status} (${itens.length})</h4>
-                ${itens
-                  .map(
-                    (lead) => `
-                    <article class="lead-card">
-                      <strong>${lead.nome}</strong>
-                      <div>${lead.origem} · ${lead.telefone}</div>
-                      <div class="small muted">Follow-up: ${lead.followup || "não definido"}</div>
-                    </article>
-                  `
-                  )
-                  .join("") || "<p class='small muted'>Sem leads nesta etapa.</p>"}
-              </div>
+              <tr>
+                <td>${delivery.clientName}</td>
+                <td>${delivery.name}</td>
+                <td>${formatDate(delivery.start)}</td>
+                <td>${formatDate(delivery.endDate)}</td>
+                <td class="${className}">${status}</td>
+              </tr>
             `;
           })
           .join("");
       }
 
       function renderDashboard() {
-        const list = leadsFiltrados();
-        const total = list.length;
-        const fechados = list.filter((l) => l.status === "Fechado").length;
-        const perdidos = list.filter((l) => l.status === "Perdido").length;
-        const emAndamento = total - fechados - perdidos;
-        const valorPrevisto = list.reduce((acc, l) => acc + Number(l.valor || 0), 0);
+        const totalLeads = state.leads.length;
+        const closed = state.leads.filter((lead) => lead.stage === "Fechado").length;
+        const closeRate = totalLeads ? Math.round((closed / totalLeads) * 100) : 0;
 
-        const byOrigem = list.reduce((acc, lead) => {
-          acc[lead.origem] = (acc[lead.origem] || 0) + 1;
+        const totalSla = state.deliveries.length;
+        const onTime = state.deliveries.filter((delivery) => new Date(delivery.endDate) >= new Date()).length;
+        const slaRate = totalSla ? Math.round((onTime / totalSla) * 100) : 0;
+
+        const channelCount = state.inbox.reduce((acc, item) => {
+          acc[item.channel] = (acc[item.channel] || 0) + 1;
           return acc;
         }, {});
 
-        const bestOrigem = Object.entries(byOrigem).sort((a, b) => b[1] - a[1])[0];
-        const conv = total ? Math.round((fechados / total) * 100) : 0;
+        const channels = Object.entries(channelCount).sort((a, b) => b[1] - a[1]);
+        const top = channels[0];
 
-        els.kpis.innerHTML = `
-          <div class="kpi"><span class="muted">Leads totais</span><strong>${total}</strong></div>
-          <div class="kpi"><span class="muted">Em andamento</span><strong>${emAndamento}</strong></div>
-          <div class="kpi"><span class="muted">Fechados</span><strong>${fechados}</strong></div>
-          <div class="kpi"><span class="muted">Perdidos</span><strong>${perdidos}</strong></div>
-          <div class="kpi"><span class="muted">Valor potencial</span><strong>${valorPrevisto.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL"
-          })}</strong></div>
-        `;
+        kpiLeads.textContent = totalLeads;
+        kpiCloseRate.textContent = `${closeRate}%`;
+        kpiClients.textContent = state.clients.length;
+        kpiSla.textContent = `${slaRate}%`;
 
-        els.convRate.textContent = `${conv}%`;
-        els.convBar.style.width = `${conv}%`;
-
-        if (bestOrigem) {
-          els.bestOrigem.textContent = bestOrigem[0];
-          els.bestOrigemInfo.textContent = `${bestOrigem[1]} lead(s) vindos desta origem.`;
+        if (top) {
+          channelText.textContent = `${top[0]} lidera com ${top[1]} interações.`;
+          channelBar.style.width = `${Math.min(100, (top[1] / state.inbox.length) * 100)}%`;
         } else {
-          els.bestOrigem.textContent = "-";
-          els.bestOrigemInfo.textContent = "Sem dados ainda.";
+          channelText.textContent = "Sem dados.";
+          channelBar.style.width = "0%";
         }
+      }
+
+      function triggerMobileAlert(item) {
+        if (!("Notification" in window)) {
+          return;
+        }
+
+        if (Notification.permission === "granted") {
+          new Notification(`Novo lead via ${item.channel}`, {
+            body: `${item.from}: ${item.text}`,
+            tag: item.id
+          });
+        }
+      }
+
+      function advanceLead(id) {
+        const lead = state.leads.find((item) => item.id === id);
+        if (!lead) {
+          return;
+        }
+
+        const currentIndex = STAGES.indexOf(lead.stage);
+        if (currentIndex >= 0 && currentIndex < STAGES.length - 1) {
+          lead.stage = STAGES[currentIndex + 1];
+          if (lead.stage === "Fechado") {
+            convertLeadToClient(lead);
+          }
+          persist();
+          renderAll();
+        }
+      }
+
+      function addDays(dateString, days) {
+        const date = new Date(`${dateString}T00:00:00`);
+        date.setDate(date.getDate() + days);
+        return date.toISOString().slice(0, 10);
+      }
+
+      function formatDate(dateString) {
+        const date = new Date(`${dateString}T00:00:00`);
+        return date.toLocaleDateString("pt-BR");
+      }
+
+      function load() {
+        try {
+          return JSON.parse(localStorage.getItem(KEY)) || { leads: [], clients: [], deliveries: [], inbox: [] };
+        } catch {
+          return { leads: [], clients: [], deliveries: [], inbox: [] };
+        }
+      }
+
+      function persist() {
+        localStorage.setItem(KEY, JSON.stringify(state));
       }
 
       function renderAll() {
-        setDashboardVisibility();
-        renderTable();
         renderKanban();
+        renderInbox();
+        renderClients();
+        renderDeliveryClientOptions();
+        renderDeliveries();
         renderDashboard();
       }
 
-      els.form.addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        const novo = {
-          id: uid(),
-          nome: document.getElementById("nome").value.trim(),
-          telefone: document.getElementById("telefone").value.trim(),
-          origem: document.getElementById("origem").value,
-          status: document.getElementById("status").value,
-          devolutiva: document.getElementById("devolutiva").value,
-          observacoes: document.getElementById("observacoes").value.trim(),
-          valor: document.getElementById("valor").value,
-          followup: document.getElementById("followup").value,
-          empresa: els.empresa.value.trim(),
-          criadoPor: els.usuario.value.trim(),
-          criadoEm: new Date().toISOString(),
-          atualizadoEm: new Date().toISOString()
-        };
-
-        leads.unshift(novo);
-        saveLocal();
-        els.form.reset();
-        renderAll();
-      });
-
-      els.rows.addEventListener("click", (e) => {
-        const btn = e.target.closest("button[data-id]");
-        if (!btn) return;
-
-        const id = btn.dataset.id;
-        const action = btn.dataset.act;
-        const idx = leads.findIndex((lead) => lead.id === id);
-        if (idx === -1) return;
-
-        if (action === "delete") {
-          leads.splice(idx, 1);
-        }
-
-        if (action === "advance") {
-          const pos = statusFlow.indexOf(leads[idx].status);
-          leads[idx].status = statusFlow[(pos + 1) % statusFlow.length];
-          leads[idx].atualizadoEm = new Date().toISOString();
-        }
-
-        saveLocal();
-        renderAll();
-      });
-
-      [els.perfil, els.empresa, els.filtroOrigem].forEach((el) => el.addEventListener("change", renderAll));
-
-      els.limpar.addEventListener("click", () => els.form.reset());
-
-      if (useFirebase && firebaseConfig.apiKey) {
-        els.syncDot.classList.remove("warn");
-        els.syncText.textContent = "Firebase habilitado";
-      }
-
-      if (!leads.length) {
-        leads = [
-          {
-            id: uid(),
-            nome: "João Silva",
-            telefone: "(11) 98888-1111",
-            origem: "Meta Ads",
-            status: "Contato",
-            devolutiva: "",
-            observacoes: "Interesse em geração de leads para imobiliária.",
-            valor: 4500,
-            followup: new Date(Date.now() + 3 * 86400000).toISOString().slice(0, 10),
-            empresa: "Representa Cliente Demo",
-            criadoPor: "vendas@cliente.com",
-            criadoEm: new Date().toISOString(),
-            atualizadoEm: new Date().toISOString()
-          },
-          {
-            id: uid(),
-            nome: "Camila Costa",
-            telefone: "(21) 97777-2222",
-            origem: "Google Ads",
-            status: "Proposta",
-            devolutiva: "",
-            observacoes: "Quer migrar de agência no próximo mês.",
-            valor: 6000,
-            followup: new Date(Date.now() + 5 * 86400000).toISOString().slice(0, 10),
-            empresa: "Representa Cliente Demo",
-            criadoPor: "gestor@cliente.com",
-            criadoEm: new Date().toISOString(),
-            atualizadoEm: new Date().toISOString()
-          }
-        ];
-        saveLocal();
-      }
-
+      window.advanceLead = advanceLead;
       renderAll();
     </script>
   </body>
